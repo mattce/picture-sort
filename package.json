@@ -44,5 +44,9 @@
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-modal": "^3.14.4"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }
