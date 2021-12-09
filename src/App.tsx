@@ -7,6 +7,8 @@ import {
 } from 'react-grid-dnd'
 import Modal from 'react-modal'
 
+import './App.scss'
+
 type AppProps = {}
 
 const App: React.FC<AppProps> = () => {
@@ -42,100 +44,37 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <>
-      <button
-        onClick={handleOnSave}
-        style={{
-          border: 0,
-          borderRadius: 4,
-          backgroundColor: 'rgb(29, 78, 216)',
-          color: '#ffffff',
-          width: 180,
-          margin: 24,
-          padding: 8,
-        }}
-      >
+      <button onClick={handleOnSave} className="save-btn">
         Speichern
       </button>
       <GridContextProvider onChange={onChange}>
-        <GridDropZone
-          id="items"
-          boxesPerRow={6}
-          rowHeight={240}
-          style={{ height: '100vh', padding: '0 1rem' }}
-        >
+        <GridDropZone id="items" boxesPerRow={6} rowHeight={240}>
           {items.map((item, index) => (
-            <GridItem key={item}>
-              <div
-                style={{
-                  position: 'relative',
-                  borderRadius: 8,
-                  border: 'solid 1px #c5c5c5',
-                  backgroundColor: '#f6f6f6',
-                  padding: 8,
-                  width: 200,
-                }}
-              >
+            <GridItem key={item} style={{ display: 'flex', padding: 8 }}>
+              <div className="item">
                 <div
+                  className="item-image"
                   style={{
-                    height: 0,
-                    paddingTop: '100%',
                     backgroundImage: `url(${imagePath}/${item})`,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
                   }}
                 />
                 <button
-                  style={{
-                    color: '#252525',
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    border: 0,
-                    backgroundColor: 'transparent',
-                    marginTop: 3,
-                    outline: 'none',
-                    cursor: 'pointer',
-                  }}
+                  className="item-fullscreen-btn"
                   onClick={() => openModal(item)}
                 >
-                  ↔️
+                  O
                 </button>
-                <div
-                  style={{
-                    color: '#252525',
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    marginBottom: 3,
-                    marginRight: 4,
-                  }}
-                >
-                  {index}
-                </div>
+                <div className="item-index">{index}</div>
               </div>
             </GridItem>
           ))}
         </GridDropZone>
       </GridContextProvider>
-      <style
-        dangerouslySetInnerHTML={{
-          __html:
-            'html,body,p{padding:0;margin:0;} #root{min-height:100vh;display:flex;flex-direction:column;font-family:monospace;}',
-        }}
-      />
-      <Modal
-        isOpen={!!currentImage}
-        onRequestClose={closeModal}
-        contentLabel="Example Modal"
-      >
+      <Modal isOpen={!!currentImage} onRequestClose={closeModal}>
         <div
+          className="modal-content"
           style={{
-            minHeight: '100%',
             backgroundImage: `url(${currentImage})`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
           }}
         />
       </Modal>

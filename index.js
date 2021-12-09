@@ -40,6 +40,7 @@ const server = http.createServer((req, res) => {
             <html lang="de">
                 <head>
                     <title>⚠️</title>
+                    <link rel="stylesheet" href="public/main.css">
                 </head>
                 <body>
                     <div id="root"></div>
@@ -57,6 +58,18 @@ const server = http.createServer((req, res) => {
         res.end(`Error getting the file: ${err}.`)
       } else {
         res.setHeader('Content-type', 'text/javascript')
+        res.end(data)
+      }
+    })
+  }
+
+  if (req.method === 'GET' && req.url === '/public/main.css') {
+    fs.readFile(__dirname + req.url, (err, data) => {
+      if (err) {
+        res.statusCode = 500
+        res.end(`Error getting the file: ${err}.`)
+      } else {
+        res.setHeader('Content-type', 'text/css')
         res.end(data)
       }
     })
