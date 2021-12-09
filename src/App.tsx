@@ -62,7 +62,7 @@ const App: React.FC<AppProps> = () => {
                   className="item-fullscreen-btn"
                   onClick={() => openModal(item)}
                 >
-                  O
+                  &#8599;
                 </button>
                 <div className="item-index">{index}</div>
               </div>

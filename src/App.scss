@@ -44,10 +44,19 @@ html, body, p, button {
   top: 0;
   right: 0;
   border: 0;
-  background-color: transparent;
+  border-radius: 4px;
+  background-color: #ccc;
+  color: #252525;
   margin-top: 3px;
+  margin-right: 3px;
   outline: none;
   cursor: pointer;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
 }
 
 .item-index {
