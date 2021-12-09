@@ -17,7 +17,7 @@ const server = http.createServer((req, res) => {
     let images = []
     fs.readdirSync(cwd, { encoding: 'utf8' })
       .filter((file) => {
-        return file.endsWith('.png')
+        return file.toLowerCase().endsWith('.jpg')
       })
       .forEach((file) => {
         images = [...images, file]
@@ -85,7 +85,7 @@ const server = http.createServer((req, res) => {
         res.end('No such image')
       } else {
         //specify the content type in the response will be an image
-        res.writeHead(200, { 'Content-type': 'image/png' })
+        res.writeHead(200, { 'Content-type': 'image/jpg' })
         res.end(content)
       }
     })
