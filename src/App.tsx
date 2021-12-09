@@ -50,7 +50,7 @@ const App: React.FC<AppProps> = () => {
       <GridContextProvider onChange={onChange}>
         <GridDropZone
           id="items"
-          boxesPerRow={6}
+          boxesPerRow={8}
           rowHeight={240}
           style={{ height: '100vh' }}
         >
@@ -68,7 +68,7 @@ const App: React.FC<AppProps> = () => {
                   onClick={() => openModal(item)}
                   dangerouslySetInnerHTML={{ __html: '&#8599;' }}
                 />
-                <div className="item-index">{index}</div>
+                <div className="item-index">{index + 1}</div>
               </div>
             </GridItem>
           ))}
