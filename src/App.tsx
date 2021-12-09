@@ -48,7 +48,12 @@ const App: React.FC<AppProps> = () => {
         Speichern
       </button>
       <GridContextProvider onChange={onChange}>
-        <GridDropZone id="items" boxesPerRow={6} rowHeight={240}>
+        <GridDropZone
+          id="items"
+          boxesPerRow={6}
+          rowHeight={240}
+          style={{ height: '100vh' }}
+        >
           {items.map((item, index) => (
             <GridItem key={item} style={{ display: 'flex', padding: 8 }}>
               <div className="item">
