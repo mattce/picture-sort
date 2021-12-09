@@ -66,9 +66,8 @@ const App: React.FC<AppProps> = () => {
                 <button
                   className="item-fullscreen-btn"
                   onClick={() => openModal(item)}
-                >
-                  &#8599;
-                </button>
+                  dangerouslySetInnerHTML={{ __html: '&#8599;' }}
+                />
                 <div className="item-index">{index}</div>
               </div>
             </GridItem>
