@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
             <!doctype html>
             <html lang="de">
                 <head>
-                    <title>⚠️</title>
+                    <title>Bilder sortieren</title>
                     <link rel="stylesheet" href="public/main.css">
                 </head>
                 <body>
