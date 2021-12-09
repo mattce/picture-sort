@@ -1,21 +1,13 @@
 import React from 'react'
 import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from 'react-beautiful-dnd'
+  GridContextProvider,
+  GridDropZone,
+  GridItem,
+  swap,
+} from 'react-grid-dnd'
 import Modal from 'react-modal'
 
 type AppProps = {}
-
-const reorder = (list: string[], startIndex: number, endIndex: number) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
-
-  return result
-}
 
 const App: React.FC<AppProps> = () => {
   const [currentImage, setCurrentImage] = React.useState('')
@@ -24,17 +16,13 @@ const App: React.FC<AppProps> = () => {
   //@ts-ignore
   const imagePath = window.data.imagePath
 
-  const handleOnDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-
-    const orderedItems = reorder(
-      items,
-      result.source.index,
-      result.destination.index
-    )
-    setItems(orderedItems)
+  function onChange(
+    sourceId: string,
+    sourceIndex: number,
+    targetIndex: number
+  ) {
+    const nextState = swap(items, sourceIndex, targetIndex)
+    setItems(nextState)
   }
 
   const handleOnSave = () => {
@@ -61,8 +49,6 @@ const App: React.FC<AppProps> = () => {
           borderRadius: 4,
           backgroundColor: 'rgb(29, 78, 216)',
           color: '#ffffff',
-          position: 'fixed',
-          zIndex: 10,
           width: 180,
           margin: 24,
           padding: 8,
@@ -70,87 +56,68 @@ const App: React.FC<AppProps> = () => {
       >
         Speichern
       </button>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="droppable">
-          {(droppableProvided) => (
-            <div
-              ref={droppableProvided.innerRef}
-              style={{
-                width: 240,
-                margin: '96px 16px 16px',
-                padding: 8,
-              }}
-            >
-              {items.map((item, index) => (
-                <Draggable key={item} draggableId={item} index={index}>
-                  {(draggableProvided, draggableSnapshot) => (
-                    <div
-                      ref={draggableProvided.innerRef}
-                      {...draggableProvided.draggableProps}
-                      {...draggableProvided.dragHandleProps}
-                      style={{
-                        // some basic styles to make the items look a bit nicer
-                        userSelect: 'none',
-                        marginTop: 16,
-                        borderRadius: 4,
-                        position: 'relative',
-
-                        // change background colour if dragging
-                        background: draggableSnapshot.isDragging
-                          ? '#4a4a4a'
-                          : '#252525',
-
-                        // styles we need to apply on draggables
-                        ...draggableProvided.draggableProps.style,
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: 0,
-                          paddingTop: '100%',
-                          backgroundImage: `url(${imagePath}/${item})`,
-                          backgroundSize: 'contain',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'center',
-                        }}
-                      />
-                      <button
-                        style={{
-                          color: '#ff00ff',
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          border: 0,
-                          backgroundColor: 'transparent',
-                          marginTop: 3,
-                          outline: 'none',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => openModal(item)}
-                      >
-                        ↔️
-                      </button>
-                      <div
-                        style={{
-                          color: '#ff00ff',
-                          position: 'absolute',
-                          bottom: 0,
-                          right: 0,
-                          marginBottom: 3,
-                          marginRight: 4,
-                        }}
-                      >
-                        {index}
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {droppableProvided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <GridContextProvider onChange={onChange}>
+        <GridDropZone
+          id="items"
+          boxesPerRow={6}
+          rowHeight={240}
+          style={{ height: '100vh', padding: '0 1rem' }}
+        >
+          {items.map((item, index) => (
+            <GridItem key={item}>
+              <div
+                style={{
+                  position: 'relative',
+                  borderRadius: 8,
+                  border: 'solid 1px #c5c5c5',
+                  backgroundColor: '#f6f6f6',
+                  padding: 8,
+                  width: 200,
+                }}
+              >
+                <div
+                  style={{
+                    height: 0,
+                    paddingTop: '100%',
+                    backgroundImage: `url(${imagePath}/${item})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                  }}
+                />
+                <button
+                  style={{
+                    color: '#252525',
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    border: 0,
+                    backgroundColor: 'transparent',
+                    marginTop: 3,
+                    outline: 'none',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => openModal(item)}
+                >
+                  ↔️
+                </button>
+                <div
+                  style={{
+                    color: '#252525',
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    marginBottom: 3,
+                    marginRight: 4,
+                  }}
+                >
+                  {index}
+                </div>
+              </div>
+            </GridItem>
+          ))}
+        </GridDropZone>
+      </GridContextProvider>
       <style
         dangerouslySetInnerHTML={{
           __html:
