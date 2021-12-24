@@ -50,9 +50,9 @@ const App: React.FC<AppProps> = () => {
       <GridContextProvider onChange={onChange}>
         <GridDropZone
           id="items"
-          boxesPerRow={8}
+          boxesPerRow={10}
           rowHeight={240}
-          style={{ height: '100vh' }}
+          style={{ height: '1000vh' }}
         >
           {items.map((item, index) => (
             <GridItem key={item} style={{ display: 'flex', padding: 8 }}>
